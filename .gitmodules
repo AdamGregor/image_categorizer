@@ -1,3 +1,3 @@
 [submodule "categorizer/3rd_party/json"]
-	path = categorizer/3rd_party/json
+	path = application/3rd_party/json
 	url = https://github.com/nlohmann/json.git
