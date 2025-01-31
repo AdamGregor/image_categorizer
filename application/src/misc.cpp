@@ -66,15 +66,10 @@ void move_file(const std::string& path, classes::Content content, [[maybe_unused
 
     std::string output_section = classes::content_arr[content];
 
+    // std::cout << out_json.dump(2) <<"\n";
+    out_json[output_section].push_back(file_name);
 
-    //   for (auto& el : out_json.items())
-    // {
-    //   std::cout << el.value() << '\n';
-    // }
-    // std::cout << out_json.dump(2) << "\n";
-    // out_json[output_section].push_back(file_name);
-
-
+    
     auto dst {output_path + "/" + output_section};
 
     std::filesystem::copy(path, dst);

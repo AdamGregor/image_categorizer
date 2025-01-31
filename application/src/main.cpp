@@ -15,7 +15,7 @@ int main(){
     init_output_dir(output_directory);
     
     while(1){
-        [[maybe_unused]]json output_json {get_output_json(output_directory)};
+        json output_json = get_output_json(output_directory);
 
         if (! std::filesystem::exists(config["input_folder"])) {
             std::cerr << "\""<<config["input_folder"]<<"\" does not exist.\n";
@@ -69,7 +69,7 @@ int main(){
             move_file(path, img_content, output_json, output_directory);
         }
 
-        // write_json(output_json, output_directory);
+        write_json(output_json, output_directory);
         
         std::this_thread::sleep_for(std::chrono::seconds(2));
     }
