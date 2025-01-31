@@ -60,14 +60,13 @@ bool has_face(cv::Mat&& input)
     return faces.size() != 0;
 }
 
-void move_file(const std::string& path, Content content, [[maybe_unused]]json& out_json, const std::string& output_path)
+void move_file(const std::string& path, classes::Content content, [[maybe_unused]]json& out_json, const std::string& output_path)
 {
     std::string file_name {std::find(path.rbegin(), path.rend(), '/').base(), path.end()};
 
-    std::string output_section = content_arr[content];
-    std::cout << file_name << "\n";
-    std::cout << output_section << "\n";
-    
+    std::string output_section = classes::content_arr[content];
+
+
     //   for (auto& el : out_json.items())
     // {
     //   std::cout << el.value() << '\n';
@@ -116,7 +115,7 @@ std::optional<json> get_config(std::string_view path)
 
 void init_output_dir(const std::string& base_path)
 {
-    for (auto& el : content_arr) {
+    for (auto& el : classes::content_arr) {
         if(! std::filesystem::exists(base_path + "/" + el))
             std::filesystem::create_directories(base_path + "/" + el);
     }
@@ -131,7 +130,7 @@ json get_output_json(const std::string& path)
         output_i.close();
     }
     else{
-        for(const auto& el : content_arr)
+        for(const auto& el : classes::content_arr)
             output_json[el] = json::array();
     }
     return output_json;

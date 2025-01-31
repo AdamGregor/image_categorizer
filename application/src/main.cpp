@@ -23,7 +23,7 @@ int main(){
         }
 
         for(const auto& entry : std::filesystem::directory_iterator(INPUT_PATH)){
-            Content img_content = other;
+            classes::Content img_content = classes::other;
             std::string path {fs_to_string(entry)};
             std::string file {std::find(path.rbegin(), path.rend(), '/').base(), path.end()};
 
@@ -32,7 +32,7 @@ int main(){
             auto last_dot {std::find(file.rbegin(), file.rend(), '.').base()};
             if (last_dot == file.begin())
             {
-                img_content = unsupported;
+                img_content = classes::unsupported;
                 move_file(path, img_content, output_json, output_directory);
                 continue;
             }
@@ -41,16 +41,16 @@ int main(){
             auto& extensions_supported {config["extensions_supported"]};
             if(std::find(extensions_supported.begin(), extensions_supported.end(), extension) == extensions_supported.end()) {
                 std::cerr << "File has unsupported extension " << extension << "\n";
-                img_content = unsupported;
+                img_content = classes::unsupported;
             }
 
             cv::Mat input_img {cv::imread(path)};
             if (input_img.empty()) {
                 std::cerr << "Failed to load the image \n";
-                img_content = unsupported;
+                img_content = classes::unsupported;
             }
 
-            if(img_content == unsupported){
+            if(img_content == classes::unsupported){
                 move_file(path, img_content, output_json, output_directory);
                 continue;
             }
@@ -59,16 +59,14 @@ int main(){
             bool cont_text {has_text(input_img.clone())};
             
             if (cont_face && cont_text)
-                img_content = face_text;
+                img_content = classes::face_text;
             else
-                img_content = static_cast<Content>((cont_face * face) + (cont_text * text));
-            std::string str_content = content_arr[img_content];
+                img_content = static_cast<classes::Content>((cont_face * classes::face) + (cont_text * classes::text));
+            std::string str_content = classes::content_arr[img_content];
 
             std::cout << "\t\t Image contains " << str_content << "\n"; 
         
-            std::cout <<"DOne1 \n";
             move_file(path, img_content, output_json, output_directory);
-            std::cout <<"DOne \n";
         }
 
         // write_json(output_json, output_directory);
