@@ -10,19 +10,21 @@ int main(){
         
     if(!check_config(config))
         return 1;
-
-    std::string output_directory = config["output_folder"];
+        
+    std::string output_directory {config["output_folder"]};
+    std::string input_directory {config["input_folder"]};
+    
     init_output_dir(output_directory);
     
     while(1){
-        json output_json = get_output_json(output_directory);
+        json output_json =get_output_json(output_directory);
 
         if (! std::filesystem::exists(config["input_folder"])) {
             std::cerr << "\""<<config["input_folder"]<<"\" does not exist.\n";
             return 1;
         }
 
-        for(const auto& entry : std::filesystem::directory_iterator(INPUT_PATH)){
+        for(const auto& entry : std::filesystem::directory_iterator(input_directory)){
             classes::Content img_content = classes::other;
             std::string path {fs_to_string(entry)};
             std::string file {std::find(path.rbegin(), path.rend(), '/').base(), path.end()};

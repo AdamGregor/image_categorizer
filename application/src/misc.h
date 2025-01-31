@@ -8,8 +8,6 @@
 
 
 using json = nlohmann::json;
-const std::string INPUT_PATH {"/application/input"};
-
 namespace classes{
     enum Content{other, face, text, face_text, unsupported, n_options};
     constexpr std::array content_arr{"other", "face", "text", "face_and_text", "unsupported"};
